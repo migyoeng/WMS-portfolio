@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="test.office_mapper">
+
+	<select id="office_list">
+		select oidx, officename, mname, ohp, omaintel, oemail, opost, oaddress from office order by odate desc
+	</select>
+</mapper>
