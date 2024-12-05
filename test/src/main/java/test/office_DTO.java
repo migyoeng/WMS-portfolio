@@ -9,4 +9,7 @@ import lombok.Data;
 public class office_DTO {
 	int oidx, opost;
 	String officename, ohp, omaintel, mname, oemail, oaddress, view;
+	
+	//검색어
+	String search;
 }

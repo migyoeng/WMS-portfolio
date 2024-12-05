@@ -11,14 +11,16 @@
     <div>
     <p class="sub_title font16_bold">지점 현황</p>
     <div class="mb-3" style="position: relative;">
+    <form id="frm">
         <ul class="ul-2">
             <li class="num_font13_bold">검색형식</li>
             <li style="width: 85%; display: flex; flex-direction: row;">
-                <input type="text" id="search_name" style="width: 200px; height: 40px;" class="form-control font12" placeholder="지점명을 입력하세요">
-                <button type="button" class="btn btn-primary font12" onclick="search_office()" style="width: 70px; height: 40px; margin-left:10px; margin-right: 10px;">검색</button>   
-                <button type="button" class="btn btn-dark font12" onclick="all_office()" style="width: 70px; height: 40px; margin-right: 10px;">전체</button> 
+                <input type="text" id="search" name="search" style="width: 200px; height: 40px;" class="form-control font12" placeholder="지점명을 입력하세요">
+                <button type="button" class="btn btn-primary font12" onclick="search_office2()" style="width: 70px; height: 40px; margin-left:10px; margin-right: 10px;">검색</button>   
+                <button type="button" class="btn btn-dark font12" onclick="all_office()" style="width: 70px; height: 40px; margin-right: 10px;">전체</button>
             </li>
         </ul> 
+     </form>
      </div>
      <div class="mb-3">
         <table class="table font12">
@@ -84,13 +86,13 @@
                         <li><button type="button" class="btn btn-dark font12" onclick="modify_office()" style="width: 50px; height: 30px; margin-right: 10px;">수정</button>
                         </li>
                         <li>
-                        <button type="button" class="btn btn-dark font12" onclick="delete_office()" style="width: 50px; height: 30px; margin-right: 10px;">삭제</button> 
+                        <button type="button" class="btn btn-dark font12" onclick="delete_office(${office.oidx})" style="width: 50px; height: 30px; margin-right: 10px;">삭제</button> 
                         </li>
                         </ul>
                     </th>
                   </tr>
             </cr:forEach>
-			<!-- 지점 현황 리스트 출력 반복문 시작 -->
+			<!-- 지점 현황 리스트 출력 반복문 끝 -->
 			</tbody>
           </table>
      </div>
@@ -105,19 +107,36 @@
     </div>
   </div>
 </main>
+<cr:import url="./footer.jsp"></cr:import>
+
 
 <script>
-
 	//검색 버튼 클릭 시 적용 함수
-	function search_office(){
-		var name = document.getElementById("search_name");
-		if(name == ""){
+	function search_office2(){
+
+		if(frm.search.value == ""){
 			//검색어를 입력하지 않은 경우
 			alert("검색할 지점명을 입력해주세요.");
+			frm.search.focus();
 		}
+
 		else {
 			//검색어를 입력한 경우
+			var search = frm.search.value.trim();
+			search = search.replaceAll(" ", "");
+			
+			if(search.length == 0){
+				alert("검색어를 다시 한 번 확인해주세요.");
+			}
+
+			else {
+				f.method="get";
+				f.action="./search_ok.do";
+				f.submit();
+			}
+
 		}
+		
 	}
 	
 	//전체 버튼 클릭 시 적용 함수
@@ -131,11 +150,13 @@
 	}
 	
 	//삭제 버튼 클릭 시 적용 함수
-	function delete_office(){
-		if(confirm("해당 지점을 삭제하시겠습니까? 단, 데이터는 복구되지 않습니다.")){
-			
+	function delete_office(oidx){
+		console.log(oidx);
+		var key = window.btoa("wms.test");
+		if(confirm("해당 게시물을 삭제하시겠습니까?\n삭제된 데이터는 복구하지 못합니다.")){
+			location.href="./office_delete.do?oidx=" + window.btoa(oidx) + "&key=" + key;
 		}
 	}
+	
 </script>
 
-<cr:import url="./footer.jsp"></cr:import>
