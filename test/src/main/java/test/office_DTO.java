@@ -8,7 +8,7 @@ import lombok.Data;
 @Repository("office_DTO")
 public class office_DTO {
 	int oidx, opost;
-	String officename, ohp, omaintel, mname, oemail, oaddress, view;
+	String officename, ohp, omaintel, mname, oemail, oaddress, oview;
 	
 	//검색어
 	String search;

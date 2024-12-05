@@ -25,18 +25,30 @@ public class office_Controller {
 	@Autowired
 	office_service os;
 	
+	//전체 지점 현황 페이지 출력
+	@GetMapping("/office_main.do")
+	public String office_main(Model m) {
+		List<office_DTO> all = os.office_list();
+		m.addAttribute("all", all);
+		m.addAttribute("total", all.size());
+		return null;
+	}
+	
+	//검색 지점 현황 페이지 출력
+	@PostMapping("/office_main.do")
+	public String search_ok(@RequestParam("search") String search, Model m) {
+		List<office_DTO> searchAll = os.search_office(search);
+		m.addAttribute("all", searchAll);
+		return null;
+	}
 	
 	//지점 삭제
 	@GetMapping("/office_delete.do")
 	public String office_delete(@RequestParam("oidx")String oidx, @RequestParam("key")String key, ServletResponse res) {
-		System.out.println(oidx);
-		System.out.println(key);
 		res.setContentType("text/html;charset=utf-8");
 		PrintWriter pw = null;
-		
 		try {
 			pw = res.getWriter();
-			System.out.println(oidx);
 			
 			Decoder decoder = Base64.getDecoder();
 			byte[] keycheck = decoder.decode(key);
@@ -73,22 +85,4 @@ public class office_Controller {
 		return null;
 	}
 	
-	//지점 검색
-	@CrossOrigin("*")
-	@GetMapping("/search_ok.do")
-	public String search_ok(@RequestParam("search") String search, Model m) {
-		List<office_DTO> result = os.search_office(search);
-		
-		
-		return null;
-	}
-	
-	//지점 현황 페이지 출력
-	@GetMapping("/office_main.do")
-	public String office_main(Model m) {
-		List<office_DTO> all = os.office_list();
-		m.addAttribute("all", all);
-		m.addAttribute("total", all.size());
-		return null;
-	}
 }

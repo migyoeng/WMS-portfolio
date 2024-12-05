@@ -5,7 +5,6 @@
 
 <cr:import url="./header.jsp"></cr:import>
 
-
 <main role="main" style="height: 850px;">
   <div class="container">
     <div>
@@ -16,8 +15,8 @@
             <li class="num_font13_bold">검색형식</li>
             <li style="width: 85%; display: flex; flex-direction: row;">
                 <input type="text" id="search" name="search" style="width: 200px; height: 40px;" class="form-control font12" placeholder="지점명을 입력하세요">
-                <button type="button" class="btn btn-primary font12" onclick="search_office2()" style="width: 70px; height: 40px; margin-left:10px; margin-right: 10px;">검색</button>   
-                <button type="button" class="btn btn-dark font12" onclick="all_office()" style="width: 70px; height: 40px; margin-right: 10px;">전체</button>
+                <button type="button" class="btn btn-primary font12" onclick="search_office()" style="width: 70px; height: 40px; margin-left:10px; margin-right: 10px;">검색</button>   
+                <button type="button" class="btn btn-dark font12" onclick="searchAll_office()" style="width: 70px; height: 40px; margin-right: 10px;">전체</button>
             </li>
         </ul> 
      </form>
@@ -111,37 +110,40 @@
 
 
 <script>
+	var search_word = document.getElementById("search");
+	
 	//검색 버튼 클릭 시 적용 함수
-	function search_office2(){
-
-		if(frm.search.value == ""){
+	function search_office(){
+		console.log(search_word);
+		if(search_word.value == ""){
 			//검색어를 입력하지 않은 경우
 			alert("검색할 지점명을 입력해주세요.");
-			frm.search.focus();
+			search_word.focus();
 		}
-
 		else {
 			//검색어를 입력한 경우
-			var search = frm.search.value.trim();
+			var search = search_word.value.trim();
 			search = search.replaceAll(" ", "");
 			
 			if(search.length == 0){
 				alert("검색어를 다시 한 번 확인해주세요.");
+				search_word.focus();
 			}
 
 			else {
-				f.method="get";
-				f.action="./search_ok.do";
-				f.submit();
+				frm.method="post";
+				frm.action="./office_main.do";
+				frm.submit();
 			}
-
 		}
-		
 	}
 	
 	//전체 버튼 클릭 시 적용 함수
-	function all_office(){
-		
+	function searchAll_office(){
+		search_word.value = "";
+		frm.method="post";
+		frm.action="./office_main.do";
+		frm.submit();
 	}
 	
 	//수정 버튼 클릭 시 적용 함수
